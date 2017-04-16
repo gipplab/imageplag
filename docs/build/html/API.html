@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API package &#8212; ImagePlag API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ImagePlag API 0.1 documentation" href="index.html" />
+    <link rel="up" title="API" href="modules.html" />
+    <link rel="next" title="API.pytesser package" href="API.pytesser.html" />
+    <link rel="prev" title="API" href="modules.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="API.pytesser.html" title="API.pytesser package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ImagePlag API 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">API</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="api-package">
+<h1>API package<a class="headerlink" href="#api-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="API.pytesser.html">API.pytesser package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="API.pytesser.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.pytesser.html#module-API.pytesser.errors">API.pytesser.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.pytesser.html#module-API.pytesser.pytesser">API.pytesser.pytesser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.pytesser.html#module-API.pytesser.util">API.pytesser.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.pytesser.html#module-API.pytesser">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-API.app">
+<span id="api-app-module"></span><h2>API.app module<a class="headerlink" href="#module-API.app" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-API.classify">
+<span id="api-classify-module"></span><h2>API.classify module<a class="headerlink" href="#module-API.classify" title="Permalink to this headline">¶</a></h2>
+<p>Module based upon
+<a class="reference external" href="https://github.com/NVIDIA/DIGITS/blob/master/examples/classification/example.py">https://github.com/NVIDIA/DIGITS/blob/master/examples/classification/example.py</a></p>
+<dl class="function">
+<dt id="API.classify.classify">
+<code class="descclassname">API.classify.</code><code class="descname">classify</code><span class="sig-paren">(</span><em>net</em>, <em>transformer</em>, <em>image_files</em>, <em>labels_file=None</em>, <em>batch_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#API.classify.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify some images against a Caffe model and returns the results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>net</strong> (<em>caffe.Net</em>) &#8211; A caffe.Net.</li>
+<li><strong>transformer</strong> (<em>caffe.io.Transformer</em>) &#8211; A caffe.io.Transformer.</li>
+<li><strong>image_files</strong> (<em>List</em>) &#8211; List of paths to images.</li>
+<li><strong>labels_file</strong> (<em>str, optional</em>) &#8211; Path to a .txt file.</li>
+<li><strong>batch_size</strong> (<em>int, optional</em>) &#8211; How many images can be processed at once.
+(a high value may result in out-of-memory errors)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of classification results.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">List</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="API.classify.forward_pass">
+<code class="descclassname">API.classify.</code><code class="descname">forward_pass</code><span class="sig-paren">(</span><em>images</em>, <em>net</em>, <em>transformer</em>, <em>batch_size=None</em><span class="sig-paren">)</span><a class="headerlink" href="#API.classify.forward_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns scores for each image as an np.ndarray (nImages x nClasses)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>images</strong> (<em>List</em>) &#8211; A list of np.ndarrays.</li>
+<li><strong>net</strong> (<em>caffe.Net</em>) &#8211; A caffe.Net.</li>
+<li><strong>transformer</strong> (<em>caffe.io.Transformer</em>) &#8211; A caffe.io.Transformer.</li>
+<li><strong>batch_size</strong> (<em>int, optional</em>) &#8211; How many images can be processed at once.
+(a high value may result in out-of-memory errors)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Scores for each image. (nImages x nClasses)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="API.classify.get_net">
+<code class="descclassname">API.classify.</code><code class="descname">get_net</code><span class="sig-paren">(</span><em>caffemodel</em>, <em>deploy_file</em>, <em>use_gpu=False</em><span class="sig-paren">)</span><a class="headerlink" href="#API.classify.get_net" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an instance of caffe.Net</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>caffemodel</strong> (<em>str</em>) &#8211; Path to a .caffemodel file.</li>
+<li><strong>deploy_file</strong> (<em>str</em>) &#8211; Path to a .prototxt file.</li>
+<li><strong>use_gpu</strong> (<em>bool, optional</em>) &#8211; If True, use the GPU for inference.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The caffemodel net.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">caffe.Net</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="API.classify.get_transformer">
+<code class="descclassname">API.classify.</code><code class="descname">get_transformer</code><span class="sig-paren">(</span><em>deploy_file</em>, <em>mean_file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#API.classify.get_transformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an instance of caffe.io.Transformer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>deploy_file</strong> (<em>str</em>) &#8211; path to a .prototxt file.</li>
+<li><strong>mean_file</strong> (<em>str, optional</em>) &#8211; path to a .binaryproto file.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The caffemodel transformer.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">caffe.io.Transformer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="API.classify.load_image">
+<code class="descclassname">API.classify.</code><code class="descname">load_image</code><span class="sig-paren">(</span><em>path</em>, <em>height</em>, <em>width</em>, <em>mode='RGB'</em><span class="sig-paren">)</span><a class="headerlink" href="#API.classify.load_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an image from disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<em>str</em>) &#8211; Path to an image on disk.</li>
+<li><strong>width</strong> (<em>int</em>) &#8211; Resize dimension.</li>
+<li><strong>height</strong> (<em>int</em>) &#8211; Resize dimension.</li>
+<li><strong>mode</strong> (<em>str, optional</em>) &#8211; The PIL mode that the image should be converted to. (RGB for color or L
+for grayscale)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(channels x width x height)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="API.classify.read_labels">
+<code class="descclassname">API.classify.</code><code class="descname">read_labels</code><span class="sig-paren">(</span><em>labels_file</em><span class="sig-paren">)</span><a class="headerlink" href="#API.classify.read_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels_file</strong> (<em>str</em>) &#8211; Path to a .txt file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-API.images">
+<span id="api-images-module"></span><h2>API.images module<a class="headerlink" href="#module-API.images" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="API.images.Collection">
+<em class="property">class </em><code class="descclassname">API.images.</code><code class="descname">Collection</code><span class="sig-paren">(</span><em>storage_path</em><span class="sig-paren">)</span><a class="headerlink" href="#API.images.Collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="API.images.Collection.on_get">
+<code class="descname">on_get</code><span class="sig-paren">(</span><em>req</em>, <em>resp</em><span class="sig-paren">)</span><a class="headerlink" href="#API.images.Collection.on_get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="API.images.Collection.on_post">
+<code class="descname">on_post</code><span class="sig-paren">(</span><em>req</em>, <em>resp</em><span class="sig-paren">)</span><a class="headerlink" href="#API.images.Collection.on_post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="API.images.Item">
+<em class="property">class </em><code class="descclassname">API.images.</code><code class="descname">Item</code><span class="sig-paren">(</span><em>storage_path</em><span class="sig-paren">)</span><a class="headerlink" href="#API.images.Item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="API.images.Item.on_get">
+<code class="descname">on_get</code><span class="sig-paren">(</span><em>req</em>, <em>resp</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#API.images.Item.on_get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-API">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-API" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-API.app">API.app module</a></li>
+<li><a class="reference internal" href="#module-API.classify">API.classify module</a></li>
+<li><a class="reference internal" href="#module-API.images">API.images module</a></li>
+<li><a class="reference internal" href="#module-API">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="API.pytesser.html"
+                        title="next chapter">API.pytesser package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/API.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="API.pytesser.html" title="API.pytesser package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ImagePlag API 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Christopher Gondek.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

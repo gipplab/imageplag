@@ -1,0 +1,12 @@
+# Ignore Database and Image Folder
+API/data
+
+# Ignore TMP Files
+*~
+
+# Ignore Byte Code
+*.pyc
+
+# Ignore DNN's
+API/DNN_bar_no_bar
+API/DNN_pure_no_pure

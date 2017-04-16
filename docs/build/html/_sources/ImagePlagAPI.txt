@@ -1,0 +1,46 @@
+ImagePlagAPI package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    ImagePlagAPI.DNN_bar_no_bar
+    ImagePlagAPI.DNN_pure_no_pure
+
+Submodules
+----------
+
+ImagePlagAPI.app module
+-----------------------
+
+.. automodule:: ImagePlagAPI.app
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ImagePlagAPI.classify module
+----------------------------
+
+.. automodule:: ImagePlagAPI.classify
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ImagePlagAPI.images module
+--------------------------
+
+.. automodule:: ImagePlagAPI.images
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: ImagePlagAPI
+    :members:
+    :undoc-members:
+    :show-inheritance:
