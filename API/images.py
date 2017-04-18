@@ -8,12 +8,14 @@ import imagehash
 import img_util
 import ratiohash
 import ocr
+import database
 
 
 class Collection(object):
-    def __init__(self, storage_path, bar_classifier, pure_classifier, use_gpu):
+    def __init__(self, database_path, storage_path, bar_classifier, pure_classifier, use_gpu):
 
         self.storage_path = storage_path
+        self.db_handler = database.DBHandler(database_path)
 
         # Load classifiers
         print("Loading Bar Chart Classifier..")
@@ -32,6 +34,11 @@ class Collection(object):
         self.pure_trans = classify.get_transformer(os.path.join(pure_classifier, 'deploy.prototxt'),
                                                    os.path.join(pure_classifier, 'mean.binaryproto'))
         self.pure_label = os.path.join(pure_classifier, 'labels.txt')
+        print("  ..done!")
+
+        # Load database
+        print("Loading Database..")
+
         print("  ..done!")
 
     def on_get(self, req, resp):
@@ -79,14 +86,22 @@ class Collection(object):
             phash = str(imagehash.phash(img_util.open_if(img)))
 
             rhash = 'NA'
+            bool_bar = 0
             if float(is_bar[1][1]) > 99 and is_bar[1][0] == 'bar':
                 rhash = ratiohash.get_hash(img)
+                bool_bar = 1
 
             text = ''
+            bool_pure = 1
             if not (float(is_pure[1][1]) > 50 and is_pure[1][0] == 'pure'):
                 text = ocr.ocr(img)
+                bool_pure = 0
+
+            id = os.path.split(img)[-1]
+            res = self.db_handler.add_entry(id, phash, rhash, text, bool_bar, bool_pure)
 
             resp.body += '{' \
+                         '"database": "' + res + '",' + \
                          '"location": "' + img + '",' + \
                          '"' + str(is_bar[1][0]) + '": "' + str(is_bar[1][1]) + '",' + \
                          '"' + str(is_bar[2][0]) + '": "' + str(is_bar[2][1]) + '",' + \
