@@ -1,3 +1,4 @@
+import pandas as pd
 import falcon
 import os
 import uuid
@@ -49,8 +50,18 @@ class Collection(object):
         # ext = mimetypes.guess_extension(req.content_type)
         # filename = '{uuid}{ext}'.format(uuid=uuid.uuid4(), ext=ext)
         filename = req.params['name']
+        analyse = (req.params['analyse'] == 'true')
+        store = (req.params['store'] == 'true')
+
         print('Retrieving image: "' + filename + '"')
-        image_path = os.path.join(self.storage_path, filename)
+        base_path = self.storage_path
+        if not store:
+            base_path = '/tmp'
+
+        image_path = os.path.join(base_path, filename)
+
+        print('Analyse: ' + str(analyse))
+        print('Store: ' + str(store))
 
         with open(image_path, 'wb') as image_file:
             while True:
@@ -66,11 +77,14 @@ class Collection(object):
         basename, ext = filename.rsplit('.', 1)
         for i, img in enumerate(img_list):
             sub_img_path = basename + '-' + str(i + 1) + "." + ext
-            sub_img_path = os.path.join(self.storage_path, sub_img_path)
+            sub_img_path = os.path.join(base_path, sub_img_path)
             img.save(sub_img_path)
             images.append(sub_img_path)
 
-        resp.body = '{ "subimages": ['
+        resp.body = '{ ' + \
+                    '"analyse": "' + str(analyse) + '",' + \
+                    '"store": "' + str(store) + '",' + \
+                    '"subimages": ['
 
         for img in images:
             print(img)
@@ -98,10 +112,29 @@ class Collection(object):
                 bool_pure = 0
 
             id = os.path.split(img)[-1]
-            res = self.db_handler.add_entry(id, phash, rhash, text, bool_bar, bool_pure)
+            res = ''
+            if store:
+                res = self.db_handler.add_entry(id, phash, rhash, text, bool_bar, bool_pure)
 
-            resp.body += '{' \
-                         '"database": "' + res + '",' + \
+            matches = '[]'
+            if analyse:
+                df = self.db_handler.eval_phash(phash)
+                matches = '['
+                for index, row in df.iterrows():
+                    matches += '{' \
+                               '"id": "' + str(row.id) + '",' + \
+                               '"score": "' + str(row.score) + '"' + \
+                               '},'
+                if matches[-1] == ',':
+                    matches = matches[:-1]
+                matches += ']'
+
+            resp.body += '{'
+            if analyse:
+                resp.body += '"matches": ' + matches + ','
+            if store:
+                resp.body += '"db_response": "' + res + '",'
+            resp.body += '"id": "' + id + '",' + \
                          '"location": "' + img + '",' + \
                          '"' + str(is_bar[1][0]) + '": "' + str(is_bar[1][1]) + '",' + \
                          '"' + str(is_bar[2][0]) + '": "' + str(is_bar[2][1]) + '",' + \
@@ -116,6 +149,8 @@ class Collection(object):
 
         resp.status = falcon.HTTP_201
         resp.location = '/images/' + filename
+
+        self.db_handler.reload_db()
 
 
 class Item(object):

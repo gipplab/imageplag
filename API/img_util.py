@@ -74,3 +74,71 @@ def open_if(img):
         return img
     else:
         return Image.open(img)
+
+
+def absdiff10k(i, j):
+    """Calculates the absolute difference between two values. Difference is 
+    set to zero, if one value is the maximum value of 10000.001
+    
+    Parameters
+    ----------
+    i : int
+        Smaller value, the value that is divided by later on.
+    j : int
+        Larger value.
+        
+    Returns
+    -------
+    float
+        abs(i-j) / float(i), or 0.0 for maximum value cases.
+    """
+    if i >= 10000.001 or j >= 10000.001:
+        return 0.0
+    else:
+        return abs(i - j) / float(i)
+
+
+def eval_distances(data, threshold=1.0, cutoff=10):
+    """Evaluates the largest relative gap in a distribution to get suspicious
+    outliers.
+    
+    Parameters
+    ----------
+    data : List
+        The distribution to evaluate.
+    threshold : float, optional
+        A threshold to weight the largest relative gap in the distribution.
+    cutoff : int, optional
+        The number of possible plagiarism cases. If there are more matches, it
+        is considered not plagiarism. (e.g. for a common logo)
+    
+    Returns
+    -------
+    int, float
+        (x, y), x as the position where the largest gap occurs,
+                y in [0,1) as the normalized level of suspicion.
+    """
+    data = np.array(data)
+    data = data.astype(float)
+    # remove capped values
+    data[data == np.inf] = 10000.0
+    # avoid div by 0 problems
+    data += 0.001
+    data.sort()
+    median = np.median(data)
+    # avoid outliers with a large distance
+    data[data > median] = median
+    # get weighted distances between neighbours
+    dist = [absdiff10k(i, j) for i, j in zip(data[:-1], data[1:])]
+    # position of the cutoff point outliers - non-outliers
+    amax = np.argmax(dist)
+    # maximal relative distance is key to determine plagiarism
+    dmax = dist[amax]
+    # normalize score between 0 and 1
+    score = (dmax / threshold)
+    score /= 1 + score
+    # if there are many suspicous findings, it is probably not plagiarism
+    if amax > cutoff:
+        return len(data), 0.0
+    # return the number of supicious matches, level of suspicion
+    return amax + 1, score

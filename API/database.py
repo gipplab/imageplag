@@ -3,6 +3,7 @@ import sqlite3
 import os
 import pandas as pd
 import imagehash
+import img_util
 
 
 class DBHandler(object):
@@ -45,7 +46,13 @@ class DBHandler(object):
         except sqlite3.Error as er:
             print 'Error:', er.message
             return "Fail - Error:" + er.message
+
         return "Success - Image added to database."
+
+    def reload_db(self):
+        # reload db into pandas
+        self.df = pd.read_sql_query("SELECT * from hashes", self.db)
+
 
     def eval_phash(self, phash):
         df = self.df.copy(deep=False)
@@ -56,10 +63,26 @@ class DBHandler(object):
         # add distance column to dataframe
         df['dist'] = ""
 
+        phash = imagehash.hex_to_hash(phash)
         for index, row in df.iterrows():
             h2 = imagehash.hex_to_hash(row['phash'])
             dist = h2 - phash
             row.dist = dist
         df = df.sort_values(['dist'])
-        print(df.head())
+
+        match = img_util.eval_distances(df.dist)
+
+        if match[1] < 0.5:
+            print('No suspicious matches found!')
+            return pd.DataFrame()
+        else:
+            df = df.head(match[0])
+            df['score'] = match[1]
+            df = df.loc[:, ['id', 'score']]
+
+        print('Suspicious matches found!')
+        print(df)
+
+        return df
+
 
