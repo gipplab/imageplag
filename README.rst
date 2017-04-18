@@ -1,4 +1,10 @@
 =====
+Requirements
+=====
+
+Additionally to the requirements from imageplagdeploy the package 'falcon' is necessary.
+
+=====
 Usage
 =====
 
@@ -13,5 +19,13 @@ Usage
 | 
 | $ python /usr/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py -b localhost:5000 app
 
+
+=====
+API
+=====
+
+| GET /images, response: 200 JSON
+| GET /images/{name}, response: 200 raw image
+| POST /images, params: name, body: raw image, response: 201 string
 
 

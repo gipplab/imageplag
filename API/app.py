@@ -14,7 +14,9 @@ use_gpu = False
 api = application = falcon.API()
 
 image_collection = images.Collection(storage_path, bar_classifier, pure_classifier, use_gpu)
+print("storage_path: " + storage_path)
 image = images.Item(storage_path)
 
 api.add_route('/images', image_collection)
 api.add_route('/images/{name}', image)
+print("server ready")

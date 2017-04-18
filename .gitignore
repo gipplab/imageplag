@@ -1,6 +1,9 @@
 # Ignore Database and Image Folder
 API/data
 
+## Directory-based project format:
+.idea
+
 # Ignore TMP Files
 *~
 
