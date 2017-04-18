@@ -10,6 +10,7 @@ import img_util
 import ratiohash
 import ocr
 import database
+import json
 
 
 class Collection(object):
@@ -116,22 +117,52 @@ class Collection(object):
             if store:
                 res = self.db_handler.add_entry(id, phash, rhash, text, bool_bar, bool_pure)
 
-            matches = '[]'
+            matches_phash = '[]'
+            matches_rhash = '[]'
+            matches_text = '[]'
             if analyse:
                 df = self.db_handler.eval_phash(phash)
-                matches = '['
+                matches_phash = '['
                 for index, row in df.iterrows():
-                    matches += '{' \
+                    matches_phash += '{' \
                                '"id": "' + str(row.id) + '",' + \
                                '"score": "' + str(row.score) + '"' + \
                                '},'
-                if matches[-1] == ',':
-                    matches = matches[:-1]
-                matches += ']'
+                if matches_phash[-1] == ',':
+                    matches_phash = matches_phash[:-1]
+                matches_phash += ']'
+
+                matches_rhash = '"NA"'
+                if bool_bar:
+                    df = self.db_handler.eval_rhash(rhash)
+                    matches_rhash = '['
+                    for index, row in df.iterrows():
+                        matches_rhash += '{' \
+                                         '"id": "' + str(row.id) + '",' + \
+                                         '"score": "' + str(row.score) + '"' + \
+                                         '},'
+                    if matches_rhash[-1] == ',':
+                        matches_rhash = matches_rhash[:-1]
+                    matches_rhash += ']'
+
+                matches_text = '"NA"'
+                if not bool_pure:
+                    df = self.db_handler.eval_text(text)
+                    matches_text = '['
+                    for index, row in df.iterrows():
+                        matches_text += '{' \
+                                         '"id": "' + str(row.id) + '",' + \
+                                         '"score": "' + str(row.score) + '"' + \
+                                         '},'
+                    if matches_text[-1] == ',':
+                        matches_text = matches_text[:-1]
+                    matches_text += ']'
 
             resp.body += '{'
             if analyse:
-                resp.body += '"matches": ' + matches + ','
+                resp.body += '"matches_phash": ' + matches_phash + ','
+                resp.body += '"matches_rhash": ' + matches_rhash + ','
+                resp.body += '"matches_text": ' + matches_text + ','
             if store:
                 resp.body += '"db_response": "' + res + '",'
             resp.body += '"id": "' + id + '",' + \
@@ -142,7 +173,7 @@ class Collection(object):
                          '"' + str(is_pure[2][0]) + '": "' + str(is_pure[2][1]) + '",' + \
                          '"phash": "' + phash + '",' + \
                          '"rhash": "' + rhash + '",' + \
-                         '"text": "' + text + '"' + \
+                         '"text": ' + json.dumps(text) + '' + \
                          '},'
 
         resp.body = resp.body[:-1] + ']}'

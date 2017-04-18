@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Usage &#8212; ImagePlag API 0.1 documentation</title>
+    <title>Requirements &#8212; ImagePlag API 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -52,7 +52,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="usage">
+  <div class="section" id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<p>Additionally to the requirements from imageplagdeploy the package &#8216;falcon&#8217; is necessary.</p>
+</div>
+<div class="section" id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">After installation, start the API with</div>
@@ -67,6 +71,14 @@
 <div class="line">$ python /usr/lib/python2.7/dist-packages/gunicorn/app/wsgiapp.py -b localhost:5000 app</div>
 </div>
 </div>
+<div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">GET /images, response: 200 JSON</div>
+<div class="line">GET /images/{name}, response: 200 raw image</div>
+<div class="line">POST /images, params: (name, analyse{&#8216;true&#8217;|&#8217;false&#8217;}, store{&#8216;true&#8217;|&#8217;false&#8217;}, body: raw image, response: 201 string</div>
+</div>
+</div>
 
 
           </div>
@@ -74,6 +86,13 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Requirements</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Readme</a></p>

@@ -1,9 +1,10 @@
-
+import ratiohash
 import sqlite3
 import os
 import pandas as pd
 import imagehash
 import img_util
+import ocr
 
 
 class DBHandler(object):
@@ -53,7 +54,6 @@ class DBHandler(object):
         # reload db into pandas
         self.df = pd.read_sql_query("SELECT * from hashes", self.db)
 
-
     def eval_phash(self, phash):
         df = self.df.copy(deep=False)
 
@@ -73,16 +73,74 @@ class DBHandler(object):
         match = img_util.eval_distances(df.dist)
 
         if match[1] < 0.5:
-            print('No suspicious matches found!')
+            print('phash: No suspicious matches found!')
             return pd.DataFrame()
         else:
             df = df.head(match[0])
             df['score'] = match[1]
             df = df.loc[:, ['id', 'score']]
 
-        print('Suspicious matches found!')
+        print('phash: Suspicious matches found!')
         print(df)
 
         return df
 
+    def eval_rhash(self, rhash):
+        df = self.df.copy(deep=False)
 
+        # drop unused columns
+        df = df.loc[:, ["id", "rhash"]]
+
+        # add distance column to dataframe
+        df['dist'] = ""
+
+        for index, row in df.iterrows():
+            dist = ratiohash.distance(rhash, row['rhash'])
+            row.dist = dist
+        df = df.sort_values(['dist'])
+
+        match = img_util.eval_distances(df.dist)
+
+        if match[1] < 0.5:
+            print('rhash: No suspicious matches found!')
+            return pd.DataFrame()
+        else:
+            df = df.head(match[0])
+            df['score'] = match[1]
+            df = df.loc[:, ['id', 'score']]
+
+        print('rhash: Suspicious matches found!')
+        print(df)
+
+        return df
+
+    def eval_text(self, text):
+        df = self.df.copy(deep=False)
+
+        # drop unused columns
+        df = df.loc[:, ["id", "text"]]
+
+        # add distance column to dataframe
+        df['dist'] = ""
+
+        for index, row in df.iterrows():
+            dist = ocr.distance(text, row['text'])
+            row.dist = dist
+        df = df.sort_values(['dist'])
+
+        print(df)
+
+        match = img_util.eval_distances(df.dist, threshold=2.0)
+
+        if match[1] < 0.5:
+            print('text: No suspicious matches found!')
+            return pd.DataFrame()
+        else:
+            df = df.head(match[0])
+            df['score'] = match[1]
+            df = df.loc[:, ['id', 'score']]
+
+        print('text: Suspicious matches found!')
+        print(df)
+
+        return df
