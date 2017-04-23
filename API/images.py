@@ -75,11 +75,10 @@ class Collection(object):
         images = [image_path]
 
         img_list = blobcrop.crop_to_blob(image_path)
-        basename, ext = filename.rsplit('.', 1)
         for i, img in enumerate(img_list):
-            sub_img_path = basename + '-' + str(i + 1) + "." + ext
+            sub_img_path = filename + '-' + str(i + 1)
             sub_img_path = os.path.join(base_path, sub_img_path)
-            img.save(sub_img_path)
+            img.save(sub_img_path, format='JPEG')
             images.append(sub_img_path)
 
         resp.body = '{ ' + \
