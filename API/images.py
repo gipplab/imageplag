@@ -44,16 +44,86 @@ class Collection(object):
         print("  ..done!")
 
     def on_get(self, req, resp):
-        resp.body = '{"Status": "Alive"}'
-        resp.status = falcon.HTTP_200
+        if "id" not in req.params:
+            resp.body = '{"Status": "Alive"}'
+            resp.status = falcon.HTTP_200
+        else:
+            print ('=' * 50)
+            print('Received analyse request for id', req.params['id'])
+            sub_df = self.db_handler.df[self.db_handler.df['parent'] == req.params['id']]
+            cmp_df = self.db_handler.df[self.db_handler.df['parent'] != req.params['id']]
+
+            resp.body = '{ ' + \
+                        '"analyse": "True",' + \
+                        '"store": "False",' + \
+                        '"id": "' + str(req.params['id']) + '",' + \
+                        '"subimages": ['
+
+            for index, row in sub_df.iterrows():
+                name = row['id']
+                phash = row['phash']
+                rhash = row['rhash']
+                text = row['text']
+                bool_bar = row['is_bar'] == 1
+                bool_pure = row['is_pure'] == 1
+
+                df = self.db_handler.eval_phash(phash, cmp_df)
+                matches_phash = '['
+                for index, row in df.iterrows():
+                    matches_phash += '{' \
+                                     '"id": "' + str(row.id) + '",' + \
+                                     '"score": "' + str(row.score) + '"' + \
+                                     '},'
+                if matches_phash[-1] == ',':
+                    matches_phash = matches_phash[:-1]
+                matches_phash += ']'
+
+                matches_rhash = '"NA"'
+                if bool_bar:
+                    df = self.db_handler.eval_rhash(rhash, cmp_df)
+                    matches_rhash = '['
+                    for index, row in df.iterrows():
+                        matches_rhash += '{' \
+                                         '"id": "' + str(row.id) + '",' + \
+                                         '"score": "' + str(row.score) + '"' + \
+                                         '},'
+                    if matches_rhash[-1] == ',':
+                        matches_rhash = matches_rhash[:-1]
+                    matches_rhash += ']'
+
+                matches_text = '"NA"'
+                if not bool_pure:
+                    df = self.db_handler.eval_text(text, cmp_df)
+                    matches_text = '['
+                    for index, row in df.iterrows():
+                        matches_text += '{' \
+                                        '"id": "' + str(row.id) + '",' + \
+                                        '"score": "' + str(row.score) + '"' + \
+                                        '},'
+                    if matches_text[-1] == ',':
+                        matches_text = matches_text[:-1]
+                    matches_text += ']'
+
+                resp.body += '{'
+                resp.body += '"id": "' + str(name) + '",'
+                resp.body += '"is_pure": "' + str(bool_pure) + '",'
+                resp.body += '"is_bar": "' + str(bool_bar) + '",'
+                resp.body += '"matches_phash": ' + matches_phash + ','
+                resp.body += '"matches_rhash": ' + matches_rhash + ','
+                resp.body += '"matches_text": ' + matches_text
+                resp.body += '},'
+
+            resp.body = resp.body[:-1] + ']}'
 
     def on_post(self, req, resp):
         # ext = mimetypes.guess_extension(req.content_type)
         # filename = '{uuid}{ext}'.format(uuid=uuid.uuid4(), ext=ext)
-        filename = req.params['name']
-        analyse = (req.params['analyse'] == 'true')
+        filename = req.params['id']
+        # Analyse here is not recommended - if image is submitted twice, the first copy will distort the results.
+        analyse = False  # (req.params['analyse'] == 'true')
         store = (req.params['store'] == 'true')
 
+        print ('=' * 50)
         print('Retrieving image: "' + filename + '"')
         base_path = self.storage_path
         if not store:
@@ -87,6 +157,7 @@ class Collection(object):
                     '"subimages": ['
 
         for img in images:
+            print ('-' * 50)
             print(img)
 
             is_bar = classify.classify(self.bar_net, self.bar_trans, [img], labels_file=self.bar_label)
@@ -114,7 +185,7 @@ class Collection(object):
             id = os.path.split(img)[-1]
             res = ''
             if store:
-                res = self.db_handler.add_entry(id, phash, rhash, text, bool_bar, bool_pure)
+                res = self.db_handler.add_entry(id, filename, phash, rhash, text, bool_bar, bool_pure)
 
             matches_phash = '[]'
             matches_rhash = '[]'
@@ -124,9 +195,9 @@ class Collection(object):
                 matches_phash = '['
                 for index, row in df.iterrows():
                     matches_phash += '{' \
-                               '"id": "' + str(row.id) + '",' + \
-                               '"score": "' + str(row.score) + '"' + \
-                               '},'
+                                     '"id": "' + str(row.id) + '",' + \
+                                     '"score": "' + str(row.score) + '"' + \
+                                     '},'
                 if matches_phash[-1] == ',':
                     matches_phash = matches_phash[:-1]
                 matches_phash += ']'
@@ -150,9 +221,9 @@ class Collection(object):
                     matches_text = '['
                     for index, row in df.iterrows():
                         matches_text += '{' \
-                                         '"id": "' + str(row.id) + '",' + \
-                                         '"score": "' + str(row.score) + '"' + \
-                                         '},'
+                                        '"id": "' + str(row.id) + '",' + \
+                                        '"score": "' + str(row.score) + '"' + \
+                                        '},'
                     if matches_text[-1] == ',':
                         matches_text = matches_text[:-1]
                     matches_text += ']'

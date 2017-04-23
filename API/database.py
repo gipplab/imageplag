@@ -17,13 +17,13 @@ class DBHandler(object):
         self.db.text_factory = str
         self.cursor = self.db.cursor()
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS
-        hashes(id TEXT, phash TEXT, rhash TEXT, text TEXT,
+        hashes(id TEXT, parent TEXT, phash TEXT, rhash TEXT, text TEXT,
         is_bar INTEGER, is_pure INTEGER, UNIQUE(id))''')
 
         # load db into pandas
         self.df = pd.read_sql_query("SELECT * from hashes", self.db)
 
-    def add_entry(self, id, phash, rhash, text, is_bar, is_pure):
+    def add_entry(self, id, parent, phash, rhash, text, is_bar, is_pure):
 
         # test, if id exists
         for row in self.cursor.execute("SELECT * FROM hashes WHERE id=?", (id, )):
@@ -32,10 +32,11 @@ class DBHandler(object):
 
         try:
             self.cursor.execute('''INSERT OR REPLACE INTO
-                            hashes(id, phash, rhash, text, is_bar,
+                            hashes(id, parent, phash, rhash, text, is_bar,
                             is_pure)
-                            VALUES(?,?,?,?,?,?)''',
+                            VALUES(?,?,?,?,?,?,?)''',
                            [id,
+                            parent,
                             phash,
                             rhash,
                             text,
@@ -54,8 +55,9 @@ class DBHandler(object):
         # reload db into pandas
         self.df = pd.read_sql_query("SELECT * from hashes", self.db)
 
-    def eval_phash(self, phash):
-        df = self.df.copy(deep=False)
+    def eval_phash(self, phash, df=None):
+        if df is None:
+            df = self.df.copy(deep=False)
 
         # drop unused columns
         df = df.loc[:, ["id", "phash"]]
@@ -81,12 +83,12 @@ class DBHandler(object):
             df = df.loc[:, ['id', 'score']]
 
         print('phash: Suspicious matches found!')
-        print(df)
 
         return df
 
-    def eval_rhash(self, rhash):
-        df = self.df.copy(deep=False)
+    def eval_rhash(self, rhash, df=None):
+        if df is None:
+            df = self.df.copy(deep=False)
 
         # drop unused columns
         df = df.loc[:, ["id", "rhash"]]
@@ -110,12 +112,12 @@ class DBHandler(object):
             df = df.loc[:, ['id', 'score']]
 
         print('rhash: Suspicious matches found!')
-        print(df)
 
         return df
 
-    def eval_text(self, text):
-        df = self.df.copy(deep=False)
+    def eval_text(self, text, df=None):
+        if df is None:
+            df = self.df.copy(deep=False)
 
         # drop unused columns
         df = df.loc[:, ["id", "text"]]
@@ -128,8 +130,6 @@ class DBHandler(object):
             row.dist = dist
         df = df.sort_values(['dist'])
 
-        print(df)
-
         match = img_util.eval_distances(df.dist, threshold=2.0)
 
         if match[1] < 0.5:
@@ -141,6 +141,5 @@ class DBHandler(object):
             df = df.loc[:, ['id', 'score']]
 
         print('text: Suspicious matches found!')
-        print(df)
 
         return df
