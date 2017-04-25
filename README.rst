@@ -25,7 +25,8 @@ API
 =====
 
 | GET /images, response: 200 JSON
-| GET /images/{name}, response: 200 raw image
-| POST /images, params: (name, analyse{'true'|'false'}, store{'true'|'false'}, body: raw image, response: 201 string
+| GET /images, params: (id) response: 200 JSON
+| GET /images/{id}, response: 200 raw image
+| POST /images, params: (id, store{'true'|'false'}), body: raw image, response: 201 string
 
 
