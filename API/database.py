@@ -23,12 +23,15 @@ class DBHandler(object):
         # load db into pandas
         self.df = pd.read_sql_query("SELECT * from hashes", self.db)
 
+    # the DBHandler will response for each action with an information string
+    # the final result should always begin with: "Success" / "Duplicate" / "Error"
+    # return should look like: "<response type>: <message>"
     def add_entry(self, id, parent, phash, rhash, text, is_bar, is_pure):
 
         # test, if id exists
         for row in self.cursor.execute("SELECT * FROM hashes WHERE id=?", (id, )):
             print("ID already exists!")
-            return "Fail - ID already exists!"
+            return "Duplicate: ID already exists!"
 
         try:
             self.cursor.execute('''INSERT OR REPLACE INTO
@@ -47,9 +50,9 @@ class DBHandler(object):
             raise
         except sqlite3.Error as er:
             print 'Error:', er.message
-            return "Fail - Error:" + er.message
+            return "Error: " + er.message
 
-        return "Success - Image added to database."
+        return "Success: Image added to database."
 
     def reload_db(self):
         # reload db into pandas
@@ -74,7 +77,7 @@ class DBHandler(object):
 
         match = img_util.eval_distances(df.dist)
 
-        if match[1] < 0.5:
+        if match[1] < 0.01:
             print('phash: No suspicious matches found!')
             return pd.DataFrame()
         else:
