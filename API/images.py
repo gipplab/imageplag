@@ -67,7 +67,10 @@ class Collection(object):
                 bool_bar = row['is_bar'] == 1
                 bool_pure = row['is_pure'] == 1
 
-                df = self.db_handler.eval_phash(phash, cmp_df)
+                if "phash_thresh" in req.params:
+                    df = self.db_handler.eval_phash(phash, cmp_df, float(req.params["phash_thresh"]))
+                else:
+                    df = self.db_handler.eval_phash(phash, cmp_df)
                 matches_phash = '['
                 for index, row in df.iterrows():
                     matches_phash += '{' \
@@ -80,7 +83,10 @@ class Collection(object):
 
                 matches_rhash = '"NA"'
                 if bool_bar:
-                    df = self.db_handler.eval_rhash(rhash, cmp_df)
+                    if "rhash_thresh" in req.params:
+                        df = self.db_handler.eval_rhash(rhash, cmp_df, float(req.params["rhash_thresh"]))
+                    else:
+                        df = self.db_handler.eval_rhash(rhash, cmp_df)
                     matches_rhash = '['
                     for index, row in df.iterrows():
                         matches_rhash += '{' \
@@ -93,7 +99,10 @@ class Collection(object):
 
                 matches_text = '"NA"'
                 if not bool_pure:
-                    df = self.db_handler.eval_text(text, cmp_df)
+                    if "text_thresh" in req.params:
+                        df = self.db_handler.eval_text(text, cmp_df, float(req.params["text_thresh"]))
+                    else:
+                        df = self.db_handler.eval_text(text, cmp_df)
                     matches_text = '['
                     for index, row in df.iterrows():
                         matches_text += '{' \

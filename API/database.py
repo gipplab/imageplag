@@ -58,7 +58,7 @@ class DBHandler(object):
         # reload db into pandas
         self.df = pd.read_sql_query("SELECT * from hashes", self.db)
 
-    def eval_phash(self, phash, df=None):
+    def eval_phash(self, phash, df=None, thresh=0.01):
         if df is None:
             df = self.df.copy(deep=False)
 
@@ -77,7 +77,7 @@ class DBHandler(object):
 
         match = img_util.eval_distances(df.dist)
 
-        if match[1] < 0.01:
+        if match[1] < thresh:
             print('phash: No suspicious matches found!')
             return pd.DataFrame()
         else:
@@ -89,7 +89,7 @@ class DBHandler(object):
 
         return df
 
-    def eval_rhash(self, rhash, df=None):
+    def eval_rhash(self, rhash, df=None, thresh=0.01):
         if df is None:
             df = self.df.copy(deep=False)
 
@@ -106,7 +106,7 @@ class DBHandler(object):
 
         match = img_util.eval_distances(df.dist)
 
-        if match[1] < 0.5:
+        if match[1] < thresh:
             print('rhash: No suspicious matches found!')
             return pd.DataFrame()
         else:
@@ -118,7 +118,7 @@ class DBHandler(object):
 
         return df
 
-    def eval_text(self, text, df=None):
+    def eval_text(self, text, df=None, thresh=0.01):
         if df is None:
             df = self.df.copy(deep=False)
 
@@ -135,7 +135,7 @@ class DBHandler(object):
 
         match = img_util.eval_distances(df.dist, threshold=2.0)
 
-        if match[1] < 0.5:
+        if match[1] < thresh:
             print('text: No suspicious matches found!')
             return pd.DataFrame()
         else:
