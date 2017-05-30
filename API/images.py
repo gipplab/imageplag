@@ -61,6 +61,7 @@ class Collection(object):
 
             for index, row in sub_df.iterrows():
                 name = row['id']
+                parent = row['parent']
                 phash = row['phash']
                 rhash = row['rhash']
                 text = row['text']
@@ -75,6 +76,7 @@ class Collection(object):
                 for index, row in df.iterrows():
                     matches_phash += '{' \
                                      '"id": "' + str(row.id) + '",' + \
+                                     '"parent": "' + str(row.parent) + '",' + \
                                      '"score": "' + str(row.score) + '"' + \
                                      '},'
                 if matches_phash[-1] == ',':
@@ -91,6 +93,7 @@ class Collection(object):
                     for index, row in df.iterrows():
                         matches_rhash += '{' \
                                          '"id": "' + str(row.id) + '",' + \
+                                         '"parent": "' + str(row.parent) + '",' + \
                                          '"score": "' + str(row.score) + '"' + \
                                          '},'
                     if matches_rhash[-1] == ',':
@@ -107,6 +110,7 @@ class Collection(object):
                     for index, row in df.iterrows():
                         matches_text += '{' \
                                         '"id": "' + str(row.id) + '",' + \
+                                        '"parent": "' + str(row.parent) + '",' + \
                                         '"score": "' + str(row.score) + '"' + \
                                         '},'
                     if matches_text[-1] == ',':
@@ -115,6 +119,7 @@ class Collection(object):
 
                 resp.body += '{'
                 resp.body += '"id": "' + str(name) + '",'
+                resp.body += '"parent": "' + str(parent) + '",'
                 resp.body += '"is_pure": "' + str(bool_pure) + '",'
                 resp.body += '"is_bar": "' + str(bool_bar) + '",'
                 resp.body += '"matches_phash": ' + matches_phash + ','

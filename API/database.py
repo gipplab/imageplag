@@ -63,7 +63,7 @@ class DBHandler(object):
             df = self.df.copy(deep=False)
 
         # drop unused columns
-        df = df.loc[:, ["id", "phash"]]
+        df = df.loc[:, ["id", "parent", "phash"]]
 
         # add distance column to dataframe
         df['dist'] = ""
@@ -83,7 +83,7 @@ class DBHandler(object):
         else:
             df = df.head(match[0])
             df['score'] = match[1]
-            df = df.loc[:, ['id', 'score']]
+            df = df.loc[:, ['id', 'parent', 'score']]
 
         print('phash: Suspicious matches found!')
 
@@ -94,7 +94,7 @@ class DBHandler(object):
             df = self.df.copy(deep=False)
 
         # drop unused columns
-        df = df.loc[:, ["id", "rhash"]]
+        df = df.loc[:, ["id", "parent", "rhash"]]
 
         # add distance column to dataframe
         df['dist'] = ""
@@ -112,7 +112,7 @@ class DBHandler(object):
         else:
             df = df.head(match[0])
             df['score'] = match[1]
-            df = df.loc[:, ['id', 'score']]
+            df = df.loc[:, ['id', 'parent', 'score']]
 
         print('rhash: Suspicious matches found!')
 
@@ -123,7 +123,7 @@ class DBHandler(object):
             df = self.df.copy(deep=False)
 
         # drop unused columns
-        df = df.loc[:, ["id", "text"]]
+        df = df.loc[:, ["id", "parent", "text"]]
 
         # add distance column to dataframe
         df['dist'] = ""
@@ -141,7 +141,7 @@ class DBHandler(object):
         else:
             df = df.head(match[0])
             df['score'] = match[1]
-            df = df.loc[:, ['id', 'score']]
+            df = df.loc[:, ['id', 'parent', 'score']]
 
         print('text: Suspicious matches found!')
 
