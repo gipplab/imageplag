@@ -81,7 +81,7 @@ class Collection(object):
                     matches_phash = matches_phash[:-1]
                 matches_phash += ']'
 
-                matches_rhash = '"NA"'
+                matches_rhash = '[]'
                 if bool_bar:
                     if "rhash_thresh" in req.params:
                         df = self.db_handler.eval_rhash(rhash, cmp_df, float(req.params["rhash_thresh"]))
@@ -97,7 +97,7 @@ class Collection(object):
                         matches_rhash = matches_rhash[:-1]
                     matches_rhash += ']'
 
-                matches_text = '"NA"'
+                matches_text = '[]'
                 if not bool_pure:
                     if "text_thresh" in req.params:
                         df = self.db_handler.eval_text(text, cmp_df, float(req.params["text_thresh"]))
@@ -212,7 +212,7 @@ class Collection(object):
                     matches_phash = matches_phash[:-1]
                 matches_phash += ']'
 
-                matches_rhash = '"NA"'
+                matches_rhash = '[]'
                 if bool_bar:
                     df = self.db_handler.eval_rhash(rhash)
                     matches_rhash = '['
@@ -225,7 +225,7 @@ class Collection(object):
                         matches_rhash = matches_rhash[:-1]
                     matches_rhash += ']'
 
-                matches_text = '"NA"'
+                matches_text = '[]'
                 if not bool_pure:
                     df = self.db_handler.eval_text(text)
                     matches_text = '['
