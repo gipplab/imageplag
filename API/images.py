@@ -272,7 +272,9 @@ class Item(object):
         self.storage_path = storage_path
 
     def on_get(self, req, resp, id):
-        resp.content_type = mimetypes.guess_type(id)[0]
+        # (content_type is a workaround) TODO we need a separate format column in the db
+        # mimetypes.guess_type(id)[0] doesn't work since id can be 'AC00534H' without an extension
+        resp.content_type = 'image/jpeg'
         image_path = os.path.join(self.storage_path, id)
         resp.stream = open(image_path, 'rb')
         resp.stream_len = os.path.getsize(image_path)
