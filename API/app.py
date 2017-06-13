@@ -3,10 +3,10 @@ import images
 
 
 # Settings
-storage_path = '/home/christopher/Desktop/FalconTest'
+storage_path = '/home/vincent/IdeaProjects/imageplag'
 bar_classifier = 'DNN_bar_no_bar'
 pure_classifier = 'DNN_pure_no_pure'
-database_path = 'data/database.sqlite'
+database_path = 'database.sqlite'
 use_gpu = False
 
 
@@ -20,6 +20,6 @@ image = images.Item(storage_path)
 print("database_path: " + database_path)
 
 api.add_route('/images', image_collection)
-api.add_route('/images/{name}', image)
+api.add_route('/images/{id}', image)
 
 print("server ready")

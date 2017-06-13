@@ -1,7 +1,7 @@
 """This module contains shared image utility functions shared in this
 package."""
 
-import Image
+from PIL import Image
 import numpy as np
 import cv2
 

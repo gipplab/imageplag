@@ -5,7 +5,7 @@ V 0.0.1, 3/10/07"""
 
 import os
 
-import Image
+from PIL import Image
 import subprocess
 
 import util

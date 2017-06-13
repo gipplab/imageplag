@@ -1,7 +1,5 @@
-import pandas as pd
 import falcon
 import os
-import uuid
 import mimetypes
 import classify
 import blobcrop

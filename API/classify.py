@@ -5,7 +5,7 @@ import os
 
 from google.protobuf import text_format
 import numpy as np
-import PIL.Image
+from PIL import Image
 import scipy.misc
 
 os.environ['GLOG_minloglevel'] = '2'  # Suppress most caffe output
@@ -114,7 +114,7 @@ def load_image(path, height, width, mode='RGB'):
         (channels x width x height)
     """
     
-    image = PIL.Image.open(path)
+    image = Image.open(path)
     image = image.convert(mode)
     image = np.array(image)
     # squash
