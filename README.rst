@@ -103,8 +103,11 @@ I had several issue compiling everything, here are some I had resolve:
 
 separate packages extracted to '/image_plag/API'
 - DNN_bar_no_bar
-- DNN_chart_no_chart
 - DNN_pure_no_pure
+
+They can be found here:
+- (DNN_bar_no_bar) https://drive.google.com/open?id=1LLMrGwqq123vEbmmRvtlO-fke46Eod2K
+- (DNN_pure_no_pure) https://drive.google.com/open?id=1fU582xKtJsIC2_K6B3NLqgGKM1neM7Np
 
 =====
 Usage
