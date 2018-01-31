@@ -148,7 +148,7 @@ POST /images, params: id, body: raw image, response: 201 string
 
 Christopher Gondek (gondek.christopher THAT-SIGN gmail.com)
 
-[Norman Meuschke](http://wwww.meuschke.org) (norman.meuschke THAT-SIGN uni.kn)
+[Norman Meuschke](http://www.meuschke.org) (norman.meuschke THAT-SIGN uni.kn)
 
 [Vincent Stange](https://www.isg.uni-konstanz.de/people/doctoral-researchers/vincent-stange/) (vinc.sohn THAT-SIGN gmail.com)
 
