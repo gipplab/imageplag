@@ -144,12 +144,12 @@ GET /images, response: 200 JSON
 GET /images/{name}, response: 200 raw image
 POST /images, params: id, body: raw image, response: 201 string
 ```
-
-## Author
+## Contributors
 
 Christopher Gondek (gondek.christopher THAT-SIGN gmail.com)
 
-## Contributers
+[Norman Meuschke](http://wwww.meuschke.org) (norman.meuschke THAT-SIGN uni.kn)
 
-Vincent Stange (vinc.sohn THAT-SIGN gmail.com)
-Norman Meuschke (norman.meuschke THAT-SIGN uni.kn)
+[Vincent Stange](https://www.isg.uni-konstanz.de/people/doctoral-researchers/vincent-stange/) (vinc.sohn THAT-SIGN gmail.com)
+
+
