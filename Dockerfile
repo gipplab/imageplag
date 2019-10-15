@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-RUN apt-get update -y && apt-get install -y python-pip python-virtualenv tesseract-ocr poppler-utils
+RUN apt-get update -y && apt-get install -y python-pip python-virtualenv tesseract-ocr poppler-utils nginx
 
 #Might not need a virtual environment inside an isolated Docker container
 #RUN python -m virtualenv --python=/usr/bin/python /opt/venv
