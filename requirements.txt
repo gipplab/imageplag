@@ -31,7 +31,7 @@ ptyprocess==0.6.0
 Pygments==2.4.2
 pyparsing==2.4.2
 pytesseract==0.3.0
-python-dateutil==2.5.0
+python-dateutil==2.7.0
 python-gflags==3.1.2
 pytz==2019.3
 PyWavelets==1.0.3

@@ -256,4 +256,3 @@ def classify(net, transformer, image_files, labels_file=None, batch_size=None):
             result.append((label, confidence))
         results.append(result)
     return result        
-        

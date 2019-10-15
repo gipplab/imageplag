@@ -11,5 +11,5 @@ API/data
 *.pyc
 
 # Ignore DNN's
-API/DNN_bar_no_bar
-API/DNN_pure_no_pure
+#API/DNN_bar_no_bar
+#API/DNN_pure_no_pure
