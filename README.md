@@ -51,8 +51,8 @@ $ sudo apt install poppler-utils
 #### 2\. Set up a virtualenv
 
 a. Create virtual environment:  virtualenv 'imageplag/'    
-b. activate the virtual environment and install python dependencies   
-
+b. activate the virtual environment    
+c. Install dependencies from requirements.txt
 ```
 $ source imageplag/bin/activate
 $ pip install backports.tempfile
@@ -83,14 +83,38 @@ b\. change the main directory and install all requirements of caffe for req in
     `$(cat requirements.txt); do pip install $req; done`
 
 ##### Makefile.config changes   
-a\. uncomment CPU_ONLY := 1    
-b\. There was a renaming problem for hdf5, change the INCLUDE_DIRS to:   
-INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial    
-c\. In 'Makefile' also rename 'hdf5' to 'hdf5_serial'    
-d\. run all make commands    
+a\. uncomment CPU_ONLY := 1 
+b\. try running all make commands, if you get errors see below some possible solutions to these problems:
+b\1. edit this:
+    PYTHON_INCLUDE := /usr/include/python2.7 \
+     		/home/genti/.local/lib/python2.7/site-packages/numpy/core/include
+     	      # /usr/lib/python2.7/dist-packages/numpy/core/include
+b\2. uncomment this: WITH_PYTHON_LAYER := 1     
 
+c\. if you get Makefile:581: recipe for target '.build_release/src/caffe/net.o' failed:
+    install: libhdf5-dev (although it should be already installed from requirements.txt)
+    edit these two lines to:
+     INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+     LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial/
+                
+d\. if you get Makefile:591: recipe for target '.build_release/src/caffe/util/io.o' failed:
+    uncomment: USE_OPENCV := 0
+    
+e\. if you  get Makefile:591: recipe for target '.build_release/src/caffe/util/db.o' failed:
+    install leveldb :  sudo apt-get install libleveldb-dev (this should already be installed in your virtual environment from requirements.txt, but in any case)
+
+Eventually if you encounter other issues such as:
+  - Makefile:635: recipe for target '.build_release/tools/extract_features.bin' failed
+    uncomment: OPENCV_VERSION := 3
+    
+  - Makefile:635: recipe for target '.build_release/tools/extract_features.bin' failed
+    in makefile added (not makefile.config):
+    LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial  
+    
 We had several issue compiling everything, here are the descriptions of how we resolved them:    
 
+- https://github.com/BVLC/caffe/wiki/Commonly-encountered-build-issues
+- https://gist.github.com/nikitametha/c54e1abecff7ab53896270509da80215
 - https://github.com/BVLC/caffe/issues/2690
 - https://gist.github.com/wangruohui/679b05fcd1466bb0937f
 - https://github.com/BVLC/caffe/issues/559
