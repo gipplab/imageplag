@@ -52,18 +52,10 @@ $ sudo apt install poppler-utils
 
 a. Create virtual environment:  virtualenv 'imageplag/'    
 b. activate the virtual environment    
-c. Install dependencies from requirements.txt
 ```
 $ source imageplag/bin/activate
-$ pip install backports.tempfile
-$ pip install pillow
-$ pip install imagehash
-$ pip install opencv-python
-$ pip install protobuf
-$ pip install pytesseract
-$ pip install falcon
-$ pip install gunicorn
 ```
+c. Install dependencies from requirements.txt
 
 #### 3\. Install caffe
 
