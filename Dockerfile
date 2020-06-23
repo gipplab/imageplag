@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Complete caffe installation
-ENV CAFFE_ROOT=/opt/caffe
+ENV CAFFE_ROOT=/opt/caffe/
 WORKDIR $CAFFE_ROOT
 
 # FIXME: use ARG instead of ENV once DockerHub supports this
@@ -59,7 +59,7 @@ RUN mkdir -p "/imageplag/images"
 
 # Execute gunicorn with our ImagePlag application
 WORKDIR "/API"
-CMD gunicorn --pythonpath "/opt/caffe/python,/API" -b localhost:5000 app
+CMD gunicorn --pythonpath "/opt/caffe/python/API" -b localhost:5000 app
 
 #RUN ../bin/gunicorn --pythonpath "/opt/venv/caffe/python" -b 0.0.0.0:5000 app
 
