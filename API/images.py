@@ -1,7 +1,6 @@
 import falcon
 import os
-import mimetypes
-import classify
+import classifys
 import blobcrop
 import imagehash
 import img_util
@@ -19,20 +18,20 @@ class Collection(object):
 
         # Load classifiers
         print("Loading Bar Chart Classifier..")
-        self.bar_net = classify.get_net(os.path.join(bar_classifier, 'snap.caffemodel'),
-                                        os.path.join(bar_classifier, 'deploy.prototxt'),
-                                        use_gpu=use_gpu)
-        self.bar_trans = classify.get_transformer(os.path.join(bar_classifier, 'deploy.prototxt'),
-                                                  os.path.join(bar_classifier, 'mean.binaryproto'))
+        self.bar_net = classifys.get_net(os.path.join(bar_classifier, 'snap.caffemodel'),
+                                         os.path.join(bar_classifier, 'deploy.prototxt'),
+                                         use_gpu=use_gpu)
+        self.bar_trans = classifys.get_transformer(os.path.join(bar_classifier, 'deploy.prototxt'),
+                                                   os.path.join(bar_classifier, 'mean.binaryproto'))
         self.bar_label = os.path.join(bar_classifier, 'labels.txt')
         print("  ..done!")
 
         print("Loading Pure Image Classifier..")
-        self.pure_net = classify.get_net(os.path.join(pure_classifier, 'snap.caffemodel'),
-                                         os.path.join(pure_classifier, 'deploy.prototxt'),
-                                         use_gpu=use_gpu)
-        self.pure_trans = classify.get_transformer(os.path.join(pure_classifier, 'deploy.prototxt'),
-                                                   os.path.join(pure_classifier, 'mean.binaryproto'))
+        self.pure_net = classifys.get_net(os.path.join(pure_classifier, 'snap.caffemodel'),
+                                          os.path.join(pure_classifier, 'deploy.prototxt'),
+                                          use_gpu=use_gpu)
+        self.pure_trans = classifys.get_transformer(os.path.join(pure_classifier, 'deploy.prototxt'),
+                                                    os.path.join(pure_classifier, 'mean.binaryproto'))
         self.pure_label = os.path.join(pure_classifier, 'labels.txt')
         print("  ..done!")
 
@@ -173,11 +172,11 @@ class Collection(object):
             print ('-' * 50)
             print(img)
 
-            is_bar = classify.classify(self.bar_net, self.bar_trans, [img], labels_file=self.bar_label)
+            is_bar = classifys.classify(self.bar_net, self.bar_trans, [img], labels_file=self.bar_label)
             print(is_bar[1][0], is_bar[1][1])
             print(is_bar[2][0], is_bar[2][1])
 
-            is_pure = classify.classify(self.pure_net, self.pure_trans, [img], labels_file=self.pure_label)
+            is_pure = classifys.classify(self.pure_net, self.pure_trans, [img], labels_file=self.pure_label)
             print(is_pure[1][0], is_pure[1][1])
             print(is_pure[2][0], is_pure[2][1])
 
