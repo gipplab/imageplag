@@ -14,7 +14,7 @@ To install the system, run:
 ```
 $ pip install --user .
 ```
-in a directory of your choosing (do not use sudo)
+in a directory of your choice (do not use sudo)
 
 Make sure that ~/.local/bin is in Path:
 ```
@@ -101,17 +101,16 @@ We had several issue compiling everything, here are the descriptions of how we r
 export PYTHONPATH=/home/vincent/IdeaProjects/caffe/caffe/python:   
 ```
 
-#### 5\. Obtain additional data packages    
+#### 5\. Obtain classification models (too large for GitHub)    
 
-Separate packages extracted to '/image_plag/API'    
-- DNN_bar_no_bar    
+Separate directories extracted to '/image_plag/API'    
+- DNN_bar_no_bar
+- DNN_chart_no_chart
 - DNN_pure_no_pure    
 
-The packages are available at:
-- (DNN_bar_no_bar, 199MB)   
-   https://drive.google.com/open?id=1LLMrGwqq123vEbmmRvtlO-fke46Eod2K    
-- (DNN_pure_no_pure, 200MB)    
-   https://drive.google.com/open?id=1fU582xKtJsIC2_K6B3NLqgGKM1neM7Np     
+[Download files](https://1drv.ms/u/s!AngCR_4WJRw2jb4GSKsGgBaU1KL0Gw?e=S3EGje) (617 MB)
+
+   
 
 ## Usage
 
@@ -150,6 +149,6 @@ Christopher Gondek (gondek.christopher THAT-SIGN gmail.com)
 
 [Norman Meuschke](http://www.meuschke.org) (norman.meuschke THAT-SIGN uni.kn)
 
-[Vincent Stange](https://www.isg.uni-konstanz.de/people/doctoral-researchers/vincent-stange/) (vinc.sohn THAT-SIGN gmail.com)
+Vincent Stange (vinc.sohn THAT-SIGN gmail.com)
 
 
